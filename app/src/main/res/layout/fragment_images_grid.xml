@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.nasagalleryapp.ui.ImageGridViewModel" />
+    </data>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/imageGrid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="6dp"
+        android:transitionGroup="true"
+        app:imageList="@{viewModel.imageList}"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:position="@{viewModel.imageDetailCurrentImageIndex}"
+        app:spanCount="2"
+        tools:context=".ui.ImagesGridFragment"
+        tools:itemCount="16"
+        tools:listitem="@layout/image_grid_item" />
+</layout>
