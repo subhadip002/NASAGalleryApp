@@ -40,15 +40,12 @@ class ImageDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getImageList()?.let {
-            binding.pager.adapter = ImageCollectionAdapter(this, it.count())
-
-            viewModel.imageDetailCurrentImageIndex.value?.let { currentIndex ->
-                binding.pager.setCurrentItem(
-                    currentIndex,
-                    false
-                )
-            }
+        binding.pager.adapter = ImageCollectionAdapter(this, viewModel.imageListUiItems.count())
+        viewModel.imageDetailCurrentImageIndex.value?.let { currentIndex ->
+            binding.pager.setCurrentItem(
+                currentIndex,
+                false
+            )
         }
     }
 }
@@ -78,7 +75,7 @@ class ImageFragment : Fragment() {
         val binding = FragmentImageBinding.inflate(inflater)
         arguments?.takeIf { it.containsKey(ARG_POSITION) }?.apply {
             viewModel.imageDetailCurrentImageIndex.postValue(getInt(ARG_POSITION))
-            binding.image = viewModel.getImageList()?.get(getInt(ARG_POSITION))
+            binding.image = viewModel.imageListUiItems[getInt(ARG_POSITION)]
         }
         return binding.root
     }

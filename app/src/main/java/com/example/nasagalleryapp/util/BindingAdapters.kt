@@ -1,15 +1,16 @@
-package com.example.nasagalleryapp
+package com.example.nasagalleryapp.util
 
 import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.nasagalleryapp.data.Image
+import com.example.nasagalleryapp.R
+import com.example.nasagalleryapp.data.ImageItemUiState
 import com.example.nasagalleryapp.ui.ImageGridAdapter
 
 @BindingAdapter("imageList")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<Image>?) {
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<ImageItemUiState>) {
     val adapter = recyclerView.adapter as ImageGridAdapter
     adapter.submitList(data)
 }

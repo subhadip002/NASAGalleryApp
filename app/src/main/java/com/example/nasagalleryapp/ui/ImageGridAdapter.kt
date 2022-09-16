@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.nasagalleryapp.data.Image
 import com.example.nasagalleryapp.data.ImageDiffCallback
+import com.example.nasagalleryapp.data.ImageItemUiState
 import com.example.nasagalleryapp.databinding.ImageGridItemBinding
 
-class ImageGridAdapter(val listener: ImageGridAdapterListener) : ListAdapter<Image,
+class ImageGridAdapter(val listener: ImageGridAdapterListener) : ListAdapter<ImageItemUiState,
         ImageGridAdapter.ImageViewHolder>(ImageDiffCallback) {
 
     interface ImageGridAdapterListener {
@@ -35,7 +35,7 @@ class ImageGridAdapter(val listener: ImageGridAdapterListener) : ListAdapter<Ima
         private val adapter: ImageGridAdapter
     ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(image: Image) {
+        fun bind(image: ImageItemUiState) {
             binding.url = image.url
             binding.cardView.setOnClickListener {
                 adapter.listener.onItemClicked(binding.cardView, adapterPosition)

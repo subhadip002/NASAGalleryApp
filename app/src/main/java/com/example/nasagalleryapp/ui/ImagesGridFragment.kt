@@ -13,9 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.nasagalleryapp.R
 import com.example.nasagalleryapp.databinding.FragmentImagesGridBinding
 import com.google.android.material.transition.MaterialElevationScale
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class ImagesGridFragment : Fragment(), ImageGridAdapter.ImageGridAdapterListener {
 
     private val viewModel: ImageGridViewModel by activityViewModels()
