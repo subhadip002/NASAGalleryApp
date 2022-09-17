@@ -38,7 +38,6 @@ class ImagesGridFragment : Fragment(), ImageGridAdapter.ImageGridAdapterListener
     }
 
     override fun onItemClicked(cardView: CardView, position: Int) {
-        viewModel.imageDetailCurrentImageIndex.postValue(position)
         exitTransition = MaterialElevationScale(false).apply {
             duration = resources.getInteger(R.integer.image_motion_duration_large).toLong()
         }
@@ -48,7 +47,7 @@ class ImagesGridFragment : Fragment(), ImageGridAdapter.ImageGridAdapterListener
         val imageCardDetailTransitionName = getString(R.string.image_card_detail_transition_name)
         val extras = FragmentNavigatorExtras(cardView to imageCardDetailTransitionName)
         val action =
-            ImagesGridFragmentDirections.actionImagesGridFragmentToImageDetailFragment()
+            ImagesGridFragmentDirections.actionImagesGridFragmentToImageDetailFragment(position)
         findNavController().navigate(action, extras)
     }
 }

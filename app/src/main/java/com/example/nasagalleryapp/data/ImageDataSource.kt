@@ -14,18 +14,25 @@ private const val FILE_NAME = "data.json"
 
 class ImageDataSource @Inject constructor(@ApplicationContext val context: Context) {
 
-    fun getImageList(): List<Image>? {
+    private fun getJsonData(): String {
         val inputStream = context.assets.open(FILE_NAME)
         val buffer = ByteArray(inputStream.available())
         inputStream.read(buffer)
+        return String(buffer)
+    }
+
+    fun getImageList(): List<Image>? {
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
         val jsonAdapter: JsonAdapter<Array<Image>> =
             moshi.adapter(Array<Image>::class.java)
-        val list = jsonAdapter.fromJson(String(buffer))?.asList()
+        val list = jsonAdapter.fromJson(getJsonData())?.asList()
         val sortedList =
             list?.sortedWith(compareBy {
                 it.date?.let { date ->
-                    SimpleDateFormat(context.getString(R.string.image_date_format), Locale.ENGLISH).parse(date)?.time
+                    SimpleDateFormat(
+                        context.getString(R.string.image_date_format),
+                        Locale.ENGLISH
+                    ).parse(date)?.time
                 }
             })
         return sortedList

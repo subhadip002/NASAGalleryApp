@@ -18,7 +18,6 @@
         android:transitionGroup="true"
         app:imageList="@{viewModel.imageListUiItems}"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:position="@{viewModel.imageDetailCurrentImageIndex}"
         app:spanCount="@integer/image_grid_count"
         tools:context=".ui.ImagesGridFragment"
         tools:itemCount="16"

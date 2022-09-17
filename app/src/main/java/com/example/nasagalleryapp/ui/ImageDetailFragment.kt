@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.nasagalleryapp.R
 import com.example.nasagalleryapp.databinding.FragmentImageBinding
@@ -19,6 +20,7 @@ class ImageDetailFragment : Fragment() {
 
     private val viewModel: ImageGridViewModel by activityViewModels()
     private lateinit var binding: FragmentImageDetailBinding
+    private val args: ImageDetailFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,13 +44,9 @@ class ImageDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.pager.adapter = ImageCollectionAdapter(this, viewModel.imageListUiItems.count())
-        viewModel.imageDetailCurrentImageIndex.value?.let { currentIndex ->
-            binding.pager.setCurrentItem(
-                currentIndex,
-                false
-            )
-        }
+        binding.pager.setCurrentItem(args.index, false)
     }
+    
 }
 
 class ImageCollectionAdapter(fragment: Fragment, private val count: Int) :
@@ -75,8 +73,7 @@ class ImageFragment : Fragment() {
     ): View {
         val binding = FragmentImageBinding.inflate(inflater)
         arguments?.takeIf { it.containsKey(ARG_POSITION) }?.apply {
-            viewModel.imageDetailCurrentImageIndex.postValue(getInt(ARG_POSITION))
-            binding.image = viewModel.imageListUiItems[getInt(ARG_POSITION)]
+            binding.image = viewModel.getImage(getInt(ARG_POSITION))
         }
         return binding.root
     }

@@ -1,6 +1,5 @@
 package com.example.nasagalleryapp.ui
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.nasagalleryapp.data.ImageItemUiState
 import com.example.nasagalleryapp.data.ImageRepository
@@ -18,5 +17,10 @@ class ImageGridViewModel @Inject constructor(imageRepository: ImageRepository) :
             url = it.url ?: ""
         )
     } ?: listOf()
-    var imageDetailCurrentImageIndex = MutableLiveData(0)
+
+    fun getImage(index: Int): ImageItemUiState? {
+        return if (imageListUiItems.size >= index)
+            imageListUiItems[index]
+        else null
+    }
 }

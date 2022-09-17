@@ -15,5 +15,10 @@
     <fragment
         android:id="@+id/imageDetailFragment"
         android:name="com.example.nasagalleryapp.ui.ImageDetailFragment"
-        tools:layout="@layout/fragment_image_detail" />
+        tools:layout="@layout/fragment_image_detail">
+        <argument
+            android:name="index"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
 </navigation>
