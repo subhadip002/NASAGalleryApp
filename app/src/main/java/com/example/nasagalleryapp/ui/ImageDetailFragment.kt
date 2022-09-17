@@ -12,6 +12,7 @@ import com.example.nasagalleryapp.R
 import com.example.nasagalleryapp.databinding.FragmentImageBinding
 import com.example.nasagalleryapp.databinding.FragmentImageDetailBinding
 import com.example.nasagalleryapp.util.themeColor
+import com.google.android.material.R.attr
 import com.google.android.material.transition.MaterialContainerTransform
 
 class ImageDetailFragment : Fragment() {
@@ -24,9 +25,9 @@ class ImageDetailFragment : Fragment() {
 
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.nav_host_fragment
-            duration = 300
+            duration = resources.getInteger(R.integer.image_motion_duration_large).toLong()
             scrimColor = Color.TRANSPARENT
-            setAllContainerColors(requireContext().themeColor(com.google.android.material.R.attr.colorSurface))
+            setAllContainerColors(requireContext().themeColor(attr.colorSurface))
         }
     }
 

@@ -36,7 +36,7 @@ class ImageGridAdapter(val listener: ImageGridAdapterListener) : ListAdapter<Ima
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(image: ImageItemUiState) {
-            binding.url = image.url
+            binding.image = image
             binding.cardView.setOnClickListener {
                 adapter.listener.onItemClicked(binding.cardView, adapterPosition)
             }

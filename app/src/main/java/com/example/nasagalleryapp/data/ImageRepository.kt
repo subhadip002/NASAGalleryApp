@@ -11,7 +11,6 @@ class ImageRepository @Inject constructor(private val imageDataSource: ImageData
         return imageList ?: synchronized(this) {
             val data = imageDataSource.getImageList()
             imageList = data
-            // return instance
             data
         }
     }

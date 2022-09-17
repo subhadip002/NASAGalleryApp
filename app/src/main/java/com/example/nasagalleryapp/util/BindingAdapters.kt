@@ -16,13 +16,11 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<ImageItemUiState>) {
 }
 
 @BindingAdapter("url")
-fun bindImage(imgView: ImageView, url: String?) {
-    url?.let {
-        val imgUri = it.toUri().buildUpon().scheme("https").build()
-        imgView.load(imgUri) {
-            placeholder(R.drawable.loading_animation)
-            error(R.drawable.ic_broken_image)
-        }
+fun bindImage(imgView: ImageView, url: String) {
+    val imgUri = url.toUri().buildUpon().scheme("https").build()
+    imgView.load(imgUri) {
+        placeholder(R.drawable.loading_animation)
+        error(R.drawable.ic_broken_image)
     }
 }
 

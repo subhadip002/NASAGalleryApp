@@ -40,10 +40,10 @@ class ImagesGridFragment : Fragment(), ImageGridAdapter.ImageGridAdapterListener
     override fun onItemClicked(cardView: CardView, position: Int) {
         viewModel.imageDetailCurrentImageIndex.postValue(position)
         exitTransition = MaterialElevationScale(false).apply {
-            duration = 300
+            duration = resources.getInteger(R.integer.image_motion_duration_large).toLong()
         }
         reenterTransition = MaterialElevationScale(true).apply {
-            duration = 300
+            duration = resources.getInteger(R.integer.image_motion_duration_large).toLong()
         }
         val imageCardDetailTransitionName = getString(R.string.image_card_detail_transition_name)
         val extras = FragmentNavigatorExtras(cardView to imageCardDetailTransitionName)

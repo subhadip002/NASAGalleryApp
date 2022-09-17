@@ -1,6 +1,7 @@
 package com.example.nasagalleryapp.data
 
 import android.content.Context
+import com.example.nasagalleryapp.R
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -24,7 +25,7 @@ class ImageDataSource @Inject constructor(@ApplicationContext val context: Conte
         val sortedList =
             list?.sortedWith(compareBy {
                 it.date?.let { date ->
-                    SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(date)?.time
+                    SimpleDateFormat(context.getString(R.string.image_date_format), Locale.ENGLISH).parse(date)?.time
                 }
             })
         return sortedList
