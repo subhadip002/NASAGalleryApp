@@ -46,7 +46,7 @@ class ImageDetailFragment : Fragment() {
         binding.pager.adapter = ImageCollectionAdapter(this, viewModel.imageListUiItems.count())
         binding.pager.setCurrentItem(args.index, false)
     }
-    
+
 }
 
 class ImageCollectionAdapter(fragment: Fragment, private val count: Int) :
@@ -73,7 +73,13 @@ class ImageFragment : Fragment() {
     ): View {
         val binding = FragmentImageBinding.inflate(inflater)
         arguments?.takeIf { it.containsKey(ARG_POSITION) }?.apply {
-            binding.image = viewModel.getImage(getInt(ARG_POSITION))
+            viewModel.getImage(getInt(ARG_POSITION))?.let {
+                binding.image = it
+            }
+            binding.apply {
+                viewModel = this@ImageFragment.viewModel
+                lifecycleOwner = viewLifecycleOwner
+            }
         }
         return binding.root
     }

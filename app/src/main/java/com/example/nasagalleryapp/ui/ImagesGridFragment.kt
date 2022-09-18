@@ -1,5 +1,6 @@
 package com.example.nasagalleryapp.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,24 +18,29 @@ import com.google.android.material.transition.MaterialElevationScale
 class ImagesGridFragment : Fragment(), ImageGridAdapter.ImageGridAdapterListener {
 
     private val viewModel: ImageGridViewModel by activityViewModels()
+    lateinit var binding: FragmentImagesGridBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentImagesGridBinding.inflate(inflater)
-        binding.apply {
-            lifecycleOwner = this@ImagesGridFragment
+        binding = FragmentImagesGridBinding.inflate(inflater).apply {
             viewModel = this@ImagesGridFragment.viewModel
+            imageGrid.adapter = ImageGridAdapter(this@ImagesGridFragment)
         }
-        binding.imageGrid.adapter = ImageGridAdapter(this)
         return binding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
+        viewModel.isNetworkAvailable.observe(viewLifecycleOwner) {
+            if (it == true) {
+                binding.imageGrid.adapter?.notifyDataSetChanged()
+            }
+        }
     }
 
     override fun onItemClicked(cardView: CardView, position: Int) {

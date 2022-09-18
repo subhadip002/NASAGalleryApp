@@ -15,6 +15,13 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<ImageItemUiState>) {
     adapter.submitList(data)
 }
 
+@BindingAdapter("url", "isNetworkAvailable")
+fun bindImage(imgView: ImageView, url: String, isNetworkAvailable: Boolean) {
+    if (isNetworkAvailable || imgView.drawable == null) {
+        bindImage(imgView, url)
+    }
+}
+
 @BindingAdapter("url")
 fun bindImage(imgView: ImageView, url: String) {
     val imgUri = url.toUri().buildUpon().scheme("https").build()
@@ -22,9 +29,4 @@ fun bindImage(imgView: ImageView, url: String) {
         placeholder(R.drawable.loading_animation)
         error(R.drawable.ic_broken_image)
     }
-}
-
-@BindingAdapter("position")
-fun bindRecyclerView(recyclerView: RecyclerView, position: Int) {
-    recyclerView.scrollToPosition(position)
 }

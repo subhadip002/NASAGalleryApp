@@ -4,4 +4,5 @@
     <string name="image_card_detail_transition_name">image_card_detail</string>
     <string name="image_content_desc">Image of %s</string>
     <string name="image_date_format">yyyy-MM-dd</string>
+    <string name="internet_unavailable_message">Please check your internet connection</string>
 </resources>
