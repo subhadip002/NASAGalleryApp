@@ -1,10 +1,12 @@
 package com.example.nasagalleryapp.ui
 
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
@@ -34,8 +36,7 @@ class ImageDetailFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentImageDetailBinding.inflate(inflater)
         return binding.root
@@ -66,12 +67,11 @@ private const val ARG_POSITION = "position"
 
 class ImageFragment : Fragment() {
     private val viewModel: ImageGridViewModel by activityViewModels()
+    private lateinit var binding: FragmentImageBinding
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentImageBinding.inflate(inflater)
+        binding = FragmentImageBinding.inflate(inflater)
         arguments?.takeIf { it.containsKey(ARG_POSITION) }?.apply {
             viewModel.getImage(getInt(ARG_POSITION))?.let {
                 binding.image = it
@@ -82,5 +82,20 @@ class ImageFragment : Fragment() {
             }
         }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        var globalLayoutListener: OnGlobalLayoutListener? = null
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            globalLayoutListener = OnGlobalLayoutListener {
+                if (binding.root.width > 0 && (binding.imageView?.width ?: 0) > 0) {
+                    binding.imageView?.maxWidth = binding.root.width / 2
+                    binding.imageView?.requestLayout()
+                    binding.root.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
+                }
+            }
+            binding.root.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
+        }
     }
 }

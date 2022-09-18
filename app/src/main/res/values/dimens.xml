@@ -2,7 +2,7 @@
 <resources>
     <dimen name="image_title_description_margin_start_end">20dp</dimen>
     <dimen name="image_description_margin_top">16dp</dimen>
-    <dimen name="image_detail_width_landscape">0dp</dimen>
+    <dimen name="image_detail_height_landscape">0dp</dimen>
     <dimen name="image_content_detail_scroll_height_width_landscape">0dp</dimen>
     <dimen name="image_grid_recycler_view_padding">6dp</dimen>
     <dimen name="image_grid_item_card_view_height_width">0dp</dimen>
