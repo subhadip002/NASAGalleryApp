@@ -17,26 +17,26 @@ import org.junit.Test
 class ImageRepositoryTest {
 
     private val mockContext = mockk<Context>()
-    private val mockImageDataSource = spyk(ImageDataSource(mockContext), recordPrivateCalls = true)
+    private val mockImageLocalDataSource = spyk(ImageLocalDataSource(mockContext), recordPrivateCalls = true)
 
-    private val imageRepository = ImageRepository(mockImageDataSource)
+    private val imageRepository = ImageRepository(mockImageLocalDataSource)
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxUnitFun = true)
         every { mockContext.getString(R.string.image_date_format) } returns "yyyy-MM-dd"
-        every { mockImageDataSource["getJsonData"]() } returns getJsonData()
+        every { mockImageLocalDataSource["getJsonData"]() } returns getJsonData()
     }
 
     @Test
     fun getImageList_isNullOrEmpty_false() {
-        assertThat(imageRepository.getImageList().isNullOrEmpty(), `is`(false))
+        assertThat(imageRepository.getImages().isNullOrEmpty(), `is`(false))
     }
 
     @Test
     fun getImageList_checkListIsSorted() {
         assertThat(
-            imageRepository.getImageList(),
+            imageRepository.getImages(),
             `is`(getExpectedList())
         )
     }
@@ -44,14 +44,14 @@ class ImageRepositoryTest {
     @Test
     fun getImageList_validateData() {
         assertThat(
-            imageRepository.getImageList()?.get(0), `is`(getFirstData())
+            imageRepository.getImages()?.get(0), `is`(getFirstData())
         )
     }
 
     @Test
     fun getImageList_validateRepository_withDataSource() {
         assertThat(
-            imageRepository.getImageList(), `is`(mockImageDataSource.getImageList())
+            imageRepository.getImages(), `is`(mockImageLocalDataSource.getImages())
         )
     }
 }

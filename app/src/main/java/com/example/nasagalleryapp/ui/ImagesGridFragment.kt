@@ -17,7 +17,7 @@ import com.google.android.material.transition.MaterialElevationScale
 
 class ImagesGridFragment : Fragment(), ImageGridAdapter.ImageGridAdapterListener {
 
-    private val viewModel: ImageGridViewModel by activityViewModels()
+    private val viewModel: ImageViewModel by activityViewModels()
     lateinit var binding: FragmentImagesGridBinding
 
     override fun onCreateView(
@@ -26,6 +26,7 @@ class ImagesGridFragment : Fragment(), ImageGridAdapter.ImageGridAdapterListener
     ): View {
         binding = FragmentImagesGridBinding.inflate(inflater).apply {
             viewModel = this@ImagesGridFragment.viewModel
+            lifecycleOwner = viewLifecycleOwner
             imageGrid.adapter = ImageGridAdapter(this@ImagesGridFragment)
         }
         return binding.root

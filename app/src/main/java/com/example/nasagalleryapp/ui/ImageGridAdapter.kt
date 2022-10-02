@@ -5,8 +5,6 @@ import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.nasagalleryapp.data.ImageDiffCallback
-import com.example.nasagalleryapp.data.ImageItemUiState
 import com.example.nasagalleryapp.databinding.ImageGridItemBinding
 
 class ImageGridAdapter(val listener: ImageGridAdapterListener) : ListAdapter<ImageItemUiState,

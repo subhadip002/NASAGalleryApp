@@ -1,6 +1,6 @@
 package com.example.nasagalleryapp.data
 
-data class Image(
+data class ImageApiModel(
     val copyright: String?,
     val date: String?,
     val explanation: String?,

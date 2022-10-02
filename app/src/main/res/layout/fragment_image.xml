@@ -7,11 +7,11 @@
 
         <variable
             name="image"
-            type="com.example.nasagalleryapp.data.ImageItemUiState" />
+            type="com.example.nasagalleryapp.ui.ImageItemUiState" />
 
         <variable
             name="viewModel"
-            type="com.example.nasagalleryapp.ui.ImageGridViewModel" />
+            type="com.example.nasagalleryapp.ui.ImageViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView

@@ -1,7 +1,7 @@
 package com.example.nasagalleryapp
 
-import com.example.nasagalleryapp.data.Image
-import com.example.nasagalleryapp.data.ImageItemUiState
+import com.example.nasagalleryapp.data.ImageApiModel
+import com.example.nasagalleryapp.ui.ImageItemUiState
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -24,10 +24,10 @@ object DataSource {
         return stringBuilder.toString()
     }
 
-    fun getExpectedList(): List<Image> {
+    fun getExpectedList(): List<ImageApiModel> {
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-        val jsonAdapter: JsonAdapter<Array<Image>> =
-            moshi.adapter(Array<Image>::class.java)
+        val jsonAdapter: JsonAdapter<Array<ImageApiModel>> =
+            moshi.adapter(Array<ImageApiModel>::class.java)
         val list = jsonAdapter.fromJson(getJsonData())?.asList()
         val sortedList =
             list?.sortedWith(compareBy {
@@ -41,12 +41,12 @@ object DataSource {
         return sortedList!!
     }
 
-    fun getImageByIndex(index: Int): Image {
+    fun getImageByIndex(index: Int): ImageApiModel {
         return getExpectedList()[index]
     }
 
-    fun getFirstData(): Image {
-        return Image(
+    fun getFirstData(): ImageApiModel {
+        return ImageApiModel(
             copyright = "ESA/HubbleNASA",
             date = "2019-12-01",
             explanation = "Why does this galaxy have a ring of bright blue stars?  Beautiful island universe Messier 94 lies a mere 15 million light-years distant in the northern constellation of the Hunting Dogs (Canes Venatici). A popular target for Earth-based astronomers, the face-on spiral galaxy is about 30,000 light-years across, with spiral arms sweeping through the outskirts of its broad disk. But this Hubble Space Telescope field of view spans about 7,000 light-years across M94's central region. The featured close-up highlights the galaxy's compact, bright nucleus, prominent inner dust lanes, and the remarkable bluish ring of young massive stars. The ring stars are all likely less than 10 million years old, indicating that M94 is a starburst galaxy that is experiencing an epoch of rapid star formation from inspiraling gas. The circular ripple of blue stars is likely a wave propagating outward, having been triggered by the gravity and rotation of a oval matter distributions. Because M94 is relatively nearby, astronomers can better explore details of its starburst ring.    Astrophysicists: Browse 2,000+ codes in the Astrophysics Source Code Library",
@@ -58,12 +58,12 @@ object DataSource {
         )
     }
 
-    fun getImageUiStateFromImage(image: Image): ImageItemUiState {
+    fun getImageUiStateFromImage(imageApiModel: ImageApiModel): ImageItemUiState {
         return ImageItemUiState(
-            explanation = image.explanation!!,
-            hdurl = image.hdurl!!,
-            title = image.title!!,
-            url = image.url!!
+            explanation = imageApiModel.explanation!!,
+            hdurl = imageApiModel.hdurl!!,
+            title = imageApiModel.title!!,
+            url = imageApiModel.url!!
         )
     }
 }

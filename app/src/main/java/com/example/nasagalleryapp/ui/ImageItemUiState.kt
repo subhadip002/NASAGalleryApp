@@ -1,4 +1,4 @@
-package com.example.nasagalleryapp.data
+package com.example.nasagalleryapp.ui
 
 import androidx.recyclerview.widget.DiffUtil
 

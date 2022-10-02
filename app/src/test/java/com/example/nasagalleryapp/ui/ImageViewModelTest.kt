@@ -14,11 +14,11 @@ import org.hamcrest.core.Is.`is`
 import org.junit.Before
 import org.junit.Test
 
-class ImageGridViewModelTest {
+class ImageViewModelTest {
     private val mockImageRepository = spyk(ImageRepository(mockk())) {
-        every { getImageList() } returns getExpectedList()
+        every { getImages() } returns getExpectedList()
     }
-    private val viewModel = ImageGridViewModel(mockImageRepository)
+    private val viewModel = ImageViewModel(mockImageRepository)
 
     @Before
     fun setUp() {

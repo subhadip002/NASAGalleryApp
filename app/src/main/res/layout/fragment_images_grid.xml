@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.nasagalleryapp.ui.ImageGridViewModel" />
+            type="com.example.nasagalleryapp.ui.ImageViewModel" />
     </data>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:padding="@dimen/image_grid_recycler_view_padding"
         android:transitionGroup="true"
-        app:imageList="@{viewModel.imageListUiItems}"
+        app:imageList="@{viewModel.imagesUiState.imageItems}"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="@integer/image_grid_count"
         tools:context=".ui.ImagesGridFragment"

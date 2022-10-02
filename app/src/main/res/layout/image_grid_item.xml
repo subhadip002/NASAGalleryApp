@@ -6,7 +6,7 @@
 
         <variable
             name="image"
-            type="com.example.nasagalleryapp.data.ImageItemUiState" />
+            type="com.example.nasagalleryapp.ui.ImageItemUiState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -7,15 +7,19 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.nasagalleryapp.databinding.ActivityMainBinding
-import com.example.nasagalleryapp.ui.ImageGridViewModel
+import com.example.nasagalleryapp.ui.ImageViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -29,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         AppBarConfiguration(navController.graph)
     }
 
-    private val viewModel: ImageGridViewModel by viewModels()
+    private val viewModel: ImageViewModel by viewModels()
 
     val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
@@ -40,6 +44,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.topAppBar)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.imagesUiState.collect { uiState ->
+                    uiState.userMessages?.let {
+                        showSnackbar(it)
+                        viewModel.userMessageShown()
+                    }
+                }
+            }
+        }
+
         setNetworkObservers()
     }
 
@@ -65,9 +81,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showInternetUnavailableMessage() {
+        viewModel.updateUserMessage(getString(R.string.internet_unavailable_message))
+    }
+
+    private fun showSnackbar(message: String) {
         Snackbar.make(
             binding.root,
-            getString(R.string.internet_unavailable_message),
+            message,
             Snackbar.LENGTH_LONG
         ).apply {
             setBackgroundTint(

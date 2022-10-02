@@ -15,32 +15,32 @@ import org.junit.Before
 import org.junit.Test
 
 
-class ImageDataSourceTest {
+class ImageLocalDataSourceTest {
 
     private val mockContext = mockk<Context>()
-    private val mockImageDataSource = spyk(ImageDataSource(mockContext), recordPrivateCalls = true)
+    private val mockImageLocalDataSource = spyk(ImageLocalDataSource(mockContext), recordPrivateCalls = true)
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxUnitFun = true)
         every { mockContext.getString(R.string.image_date_format) } returns "yyyy-MM-dd"
-        every { mockImageDataSource["getJsonData"]() } returns getJsonData()
+        every { mockImageLocalDataSource["getJsonData"]() } returns getJsonData()
     }
 
     @Test
     fun getImageList_isNullOrEmpty_false() {
-        assertThat(mockImageDataSource.getImageList().isNullOrEmpty(), `is`(false))
+        assertThat(mockImageLocalDataSource.getImages().isNullOrEmpty(), `is`(false))
     }
 
     @Test
     fun getImageList_checkListIsSorted() {
-        assertThat(mockImageDataSource.getImageList(), `is`(getExpectedList()))
+        assertThat(mockImageLocalDataSource.getImages(), `is`(getExpectedList()))
     }
 
     @Test
     fun getImageList_validateData() {
         assertThat(
-            mockImageDataSource.getImageList()?.get(0), `is`(getFirstData())
+            mockImageLocalDataSource.getImages()?.get(0), `is`(getFirstData())
         )
     }
 }

@@ -20,7 +20,7 @@ import com.google.android.material.transition.MaterialContainerTransform
 
 class ImageDetailFragment : Fragment() {
 
-    private val viewModel: ImageGridViewModel by activityViewModels()
+    private val viewModel: ImageViewModel by activityViewModels()
     private lateinit var binding: FragmentImageDetailBinding
     private val args: ImageDetailFragmentArgs by navArgs()
 
@@ -44,7 +44,8 @@ class ImageDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.pager.adapter = ImageCollectionAdapter(this, viewModel.imageListUiItems.count())
+        binding.pager.adapter =
+            ImageCollectionAdapter(this, viewModel.imagesUiState.value.imageItems.count())
         binding.pager.setCurrentItem(args.index, false)
     }
 
@@ -66,14 +67,14 @@ class ImageCollectionAdapter(fragment: Fragment, private val count: Int) :
 private const val ARG_POSITION = "position"
 
 class ImageFragment : Fragment() {
-    private val viewModel: ImageGridViewModel by activityViewModels()
+    private val viewModel: ImageViewModel by activityViewModels()
     private lateinit var binding: FragmentImageBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentImageBinding.inflate(inflater)
         arguments?.takeIf { it.containsKey(ARG_POSITION) }?.apply {
-            viewModel.getImage(getInt(ARG_POSITION))?.let {
+            viewModel.imagesUiState.value.getImageByIndex(getInt(ARG_POSITION))?.let {
                 binding.image = it
             }
             binding.apply {
