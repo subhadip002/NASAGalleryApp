@@ -27,12 +27,12 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:contentDescription="@{@string/image_content_desc(image.title)}"
                 android:scaleType="fitXY"
-                app:url="@{image.url}"
                 tools:src="@tools:sample/backgrounds/scenic" />
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

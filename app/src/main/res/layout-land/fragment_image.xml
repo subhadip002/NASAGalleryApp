@@ -25,11 +25,11 @@
             android:adjustViewBounds="true"
             android:contentDescription="@{@string/image_content_desc(image.title)}"
             android:scaleType="fitStart"
+            app:imageItemUiState="@{image}"
             app:isNetworkAvailable="@{viewModel.isNetworkAvailable}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:url="@{image.hdurl}"
             tools:src="@tools:sample/backgrounds/scenic" />
 
         <androidx.core.widget.NestedScrollView

@@ -30,7 +30,7 @@
                 android:contentDescription="@{@string/image_content_desc(image.title)}"
                 android:scaleType="fitStart"
                 app:isNetworkAvailable="@{viewModel.isNetworkAvailable}"
-                app:url="@{image.hdurl}"
+                app:imageItemUiState="@{image}"
                 tools:src="@tools:sample/backgrounds/scenic" />
 
             <TextView

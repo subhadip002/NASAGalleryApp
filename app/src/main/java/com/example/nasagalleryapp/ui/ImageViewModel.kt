@@ -1,5 +1,6 @@
 package com.example.nasagalleryapp.ui
 
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.Network
 import androidx.lifecycle.LiveData
@@ -74,9 +75,13 @@ class ImageViewModel @Inject constructor(private val getSortedImagesWithDateUseC
         }
     }
 
-    fun updateUserMessage(message: String){
+    fun updateUserMessage(message: String) {
         _imagesUiState.update {
             it.copy(userMessages = message)
         }
+    }
+
+    fun saveImageDrawable(drawable: Drawable, position: Int) {
+        _imagesUiState.value.imageItems[position].thumbnail = drawable
     }
 }

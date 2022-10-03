@@ -1,6 +1,7 @@
 package com.example.nasagalleryapp.ui
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -56,5 +57,9 @@ class ImagesGridFragment : Fragment(), ImageGridAdapter.ImageGridAdapterListener
         val action =
             ImagesGridFragmentDirections.actionImagesGridFragmentToImageDetailFragment(position)
         findNavController().navigate(action, extras)
+    }
+
+    override fun saveImageDrawable(drawable: Drawable, position: Int) {
+        viewModel.saveImageDrawable(drawable, position)
     }
 }
