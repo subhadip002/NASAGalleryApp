@@ -10,16 +10,107 @@
             type="com.example.nasagalleryapp.ui.ImageViewModel" />
     </data>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/imageGrid"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/image_grid_recycler_view_padding"
-        android:transitionGroup="true"
-        app:imageList="@{viewModel.imagesUiState.imageItems}"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="@integer/image_grid_count"
-        tools:context=".ui.ImagesGridFragment"
-        tools:itemCount="16"
-        tools:listitem="@layout/image_grid_item" />
+        android:orientation="vertical">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerFrameLayout"
+            android:layout_width="@dimen/grid_layout_height_width"
+            android:layout_height="@dimen/grid_layout_height_width"
+            app:dataSize="@{viewModel.imagesUiState.imageItems.size()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:columnCount="@integer/image_grid_count"
+                android:padding="@dimen/image_grid_recycler_view_padding">
+
+                <include
+                    layout="@layout/shimmer_image_grid_item"
+                    android:layout_columnWeight="1"
+                    tools:ignore="IncludeLayoutParam" />
+
+                <include
+                    layout="@layout/shimmer_image_grid_item"
+                    android:layout_columnWeight="1"
+                    tools:ignore="IncludeLayoutParam" />
+
+                <include
+                    layout="@layout/shimmer_image_grid_item"
+                    android:layout_columnWeight="1"
+                    tools:ignore="IncludeLayoutParam" />
+
+                <include
+                    layout="@layout/shimmer_image_grid_item"
+                    android:layout_columnWeight="1"
+                    tools:ignore="IncludeLayoutParam" />
+
+                <include
+                    layout="@layout/shimmer_image_grid_item"
+                    android:layout_columnWeight="1"
+                    tools:ignore="IncludeLayoutParam" />
+
+                <include
+                    layout="@layout/shimmer_image_grid_item"
+                    android:layout_columnWeight="1"
+                    tools:ignore="IncludeLayoutParam" />
+
+                <include
+                    layout="@layout/shimmer_image_grid_item"
+                    android:layout_columnWeight="1"
+                    tools:ignore="IncludeLayoutParam" />
+
+                <include
+                    layout="@layout/shimmer_image_grid_item"
+                    android:layout_columnWeight="1"
+                    tools:ignore="IncludeLayoutParam" />
+
+                <include
+                    layout="@layout/shimmer_image_grid_item"
+                    android:layout_columnWeight="1"
+                    tools:ignore="IncludeLayoutParam" />
+
+                <include
+                    layout="@layout/shimmer_image_grid_item"
+                    android:layout_columnWeight="1"
+                    tools:ignore="IncludeLayoutParam" />
+
+                <include
+                    layout="@layout/shimmer_image_grid_item"
+                    android:layout_columnWeight="1"
+                    tools:ignore="IncludeLayoutParam" />
+
+                <include
+                    layout="@layout/shimmer_image_grid_item"
+                    android:layout_columnWeight="1"
+                    tools:ignore="IncludeLayoutParam" />
+
+            </GridLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/imageGrid"
+            android:layout_width="@dimen/grid_layout_height_width"
+            android:layout_height="@dimen/grid_layout_height_width"
+            android:padding="@dimen/image_grid_recycler_view_padding"
+            android:transitionGroup="true"
+            app:imageList="@{viewModel.imagesUiState.imageItems}"
+            app:isVisible="@{viewModel.imagesUiState.imageItems.size()>0}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:spanCount="@integer/image_grid_count"
+            tools:context=".ui.ImagesGridFragment"
+            tools:itemCount="16"
+            tools:listitem="@layout/image_grid_item"
+            tools:visibility="gone" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
