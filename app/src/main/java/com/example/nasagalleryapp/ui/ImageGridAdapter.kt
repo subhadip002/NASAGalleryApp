@@ -40,25 +40,29 @@ class ImageGridAdapter(val listener: ImageGridAdapterListener) : ListAdapter<Ima
         RecyclerView.ViewHolder(binding.root) {
         fun bind(image: ImageItemUiState) {
             binding.image = image
-            val imageLoader = binding.imageView.context.imageLoader
-            val request = ImageRequest.Builder(binding.imageView.context)
-                .data(image.url)
-                .placeholder(R.drawable.loading_animation)
-                .error(R.drawable.ic_broken_image)
-                .target(
-                    onStart = { placeholder ->
-                        binding.imageView.setImageDrawable(placeholder)
-                    },
-                    onSuccess = { result ->
-                        binding.imageView.setImageDrawable(result)
-                        adapter.listener.saveImageDrawable(result, adapterPosition)
-                    },
-                    onError = { error ->
-                        binding.imageView.setImageDrawable(error)
-                    }
-                )
-                .build()
-            imageLoader.enqueue(request)
+            image.thumbnail?.let {
+                binding.imageView.setImageDrawable(it)
+            } ?: run {
+                val imageLoader = binding.imageView.context.imageLoader
+                val request = ImageRequest.Builder(binding.imageView.context)
+                    .data(image.url)
+                    .placeholder(R.drawable.loading_animation)
+                    .error(R.drawable.ic_broken_image)
+                    .target(
+                        onStart = { placeholder ->
+                            binding.imageView.setImageDrawable(placeholder)
+                        },
+                        onSuccess = { result ->
+                            binding.imageView.setImageDrawable(result)
+                            adapter.listener.saveImageDrawable(result, adapterPosition)
+                        },
+                        onError = { error ->
+                            binding.imageView.setImageDrawable(error)
+                        }
+                    )
+                    .build()
+                imageLoader.enqueue(request)
+            }
             binding.cardView.setOnClickListener {
                 adapter.listener.onItemClicked(binding.cardView, adapterPosition)
             }

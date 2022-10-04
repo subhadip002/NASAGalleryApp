@@ -24,6 +24,7 @@ class ImageLocalDataSource @Inject constructor(
         val inputStream = context.assets.open(FILE_NAME)
         val buffer = ByteArray(inputStream.available())
         inputStream.read(buffer)
+        inputStream.close()
         return String(buffer)
     }
 
