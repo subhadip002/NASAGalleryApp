@@ -33,6 +33,8 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="@{@string/image_content_desc(image.title)}"
                 android:scaleType="fitXY"
+                app:imageUrl="@{image.url}"
+                app:isOffline="@{image.isOffline}"
                 tools:src="@tools:sample/backgrounds/scenic" />
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

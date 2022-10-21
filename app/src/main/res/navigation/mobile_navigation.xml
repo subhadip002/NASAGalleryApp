@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/imagesGridFragment"
-        android:name="com.example.nasagalleryapp.ui.ImagesGridFragment"
+        android:name="com.example.nasagalleryapp.ui.image_grid.ImagesGridFragment"
         tools:layout="@layout/fragment_images_grid">
         <action
             android:id="@+id/action_imagesGridFragment_to_imageDetailFragment"
@@ -14,8 +14,8 @@
     </fragment>
     <fragment
         android:id="@+id/imageDetailFragment"
-        android:name="com.example.nasagalleryapp.ui.ImageDetailFragment"
-        tools:layout="@layout/fragment_image_detail">
+        android:name="com.example.nasagalleryapp.ui.image_detail.ImageCollectionFragment"
+        tools:layout="@layout/fragment_image_collection">
         <argument
             android:name="index"
             android:defaultValue="0"

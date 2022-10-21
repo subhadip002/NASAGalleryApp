@@ -9,9 +9,6 @@
             name="image"
             type="com.example.nasagalleryapp.ui.ImageItemUiState" />
 
-        <variable
-            name="viewModel"
-            type="com.example.nasagalleryapp.ui.ImageViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,8 +22,6 @@
             android:adjustViewBounds="true"
             android:contentDescription="@{@string/image_content_desc(image.title)}"
             android:scaleType="fitStart"
-            app:imageItemUiState="@{image}"
-            app:isNetworkAvailable="@{viewModel.isNetworkAvailable}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

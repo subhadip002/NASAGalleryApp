@@ -1,5 +1,6 @@
 package com.example.nasagalleryapp.util
 
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.content.res.AppCompatResources
@@ -7,8 +8,8 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.nasagalleryapp.R
-import com.example.nasagalleryapp.ui.ImageGridAdapter
 import com.example.nasagalleryapp.ui.ImageItemUiState
+import com.example.nasagalleryapp.ui.image_grid.ImageGridAdapter
 import com.facebook.shimmer.ShimmerFrameLayout
 
 @BindingAdapter("imageList")
@@ -17,17 +18,19 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<ImageItemUiState>) {
     adapter.submitList(data)
 }
 
-@BindingAdapter("isNetworkAvailable", "imageItemUiState")
-fun loadHDImage(
+@BindingAdapter(value = ["imageUrl", "placeholder", "isOffline"], requireAll = false)
+fun setImageUrl(
     imageView: ImageView,
-    isNetworkAvailable: Boolean,
-    imageItemUiState: ImageItemUiState
+    url: String?,
+    placeHolder: Drawable?,
+    isOffline: Boolean
 ) {
-    if (isNetworkAvailable || imageView.drawable == null) {
-        imageView.load(imageItemUiState.hdurl) {
+    if (!isOffline || imageView.drawable == null) {
+        imageView.load(url) {
             placeholder(
-                imageItemUiState.thumbnail ?: AppCompatResources.getDrawable(
-                    imageView.context, R.drawable.loading_animation
+                placeHolder ?: AppCompatResources.getDrawable(
+                    imageView.context,
+                    R.drawable.loading_animation
                 )
             )
             error(R.drawable.ic_broken_image)
@@ -40,9 +43,9 @@ fun bindVisibility(view: View, isVisible: Boolean) {
     view.visibility = if (isVisible) View.VISIBLE else View.GONE
 }
 
-@BindingAdapter("dataSize")
-fun bindShimmer(shimmerFrameLayout: ShimmerFrameLayout, dataSize: Int) {
-    if (dataSize > 0) {
+@BindingAdapter("isLoading")
+fun bindShimmer(shimmerFrameLayout: ShimmerFrameLayout, isLoading: Boolean) {
+    if (!isLoading) {
         shimmerFrameLayout.stopShimmer()
         bindVisibility(shimmerFrameLayout, false)
     } else {

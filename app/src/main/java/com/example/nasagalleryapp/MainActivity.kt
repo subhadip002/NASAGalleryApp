@@ -1,15 +1,12 @@
 package com.example.nasagalleryapp
 
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.net.NetworkRequest
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -17,10 +14,12 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.nasagalleryapp.databinding.ActivityMainBinding
 import com.example.nasagalleryapp.ui.ImageViewModel
+import com.example.nasagalleryapp.util.MessageType
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -28,16 +27,14 @@ class MainActivity : AppCompatActivity() {
     private val navController: NavController by lazy {
         (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
     }
-
     private val appBarConfiguration: AppBarConfiguration by lazy {
         AppBarConfiguration(navController.graph)
     }
-
     private val viewModel: ImageViewModel by viewModels()
-
-    val binding: ActivityMainBinding by lazy {
+    private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
+    private var isOffline = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,56 +42,57 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.topAppBar)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.imagesUiState.collect { uiState ->
-                    uiState.userMessages?.let {
-                        showSnackbar(it)
-                        viewModel.userMessageShown()
-                    }
-                }
+        lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onResume(owner: LifecycleOwner) {
+                super.onResume(owner)
+                observeNetworkStatus()
+                observeUserMessage()
             }
-        }
-
-        setNetworkObservers()
+        })
     }
 
-    private fun setNetworkObservers() {
-        val networkRequest = NetworkRequest.Builder()
-            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-            .build()
-
-        val connectivityManager =
-            getSystemService(ConnectivityManager::class.java) as ConnectivityManager
-        connectivityManager.requestNetwork(networkRequest, viewModel.networkCallback)
-
-        if (connectivityManager.activeNetwork == null) {
-            showInternetUnavailableMessage()
+    private fun observeUserMessage() {
+        lifecycleScope.launch {
+            viewModel.imagesUiState.map { it.errorMessage }.filterNotNull().collect {
+                showSnackbar(it, MessageType.NEGATIVE)
+                viewModel.userMessageShown()
+            }
         }
-        viewModel.isNetworkAvailable.observe(this) {
-            if (it == false) {
-                showInternetUnavailableMessage()
+    }
+
+    private fun observeNetworkStatus() {
+        lifecycleScope.launch {
+            viewModel.isOffline.collect {
+                viewModel.setImages()
+                if (it) {
+                    showInternetUnavailableMessage()
+                } else if (isOffline) {
+                    showInternetAvailableMessage()
+                }
+                isOffline = it
             }
         }
     }
 
     private fun showInternetUnavailableMessage() {
-        viewModel.updateUserMessage(getString(R.string.internet_unavailable_message))
+        showSnackbar(getString(R.string.internet_unavailable_message), MessageType.NEGATIVE)
     }
 
-    private fun showSnackbar(message: String) {
+    private fun showInternetAvailableMessage() {
+        showSnackbar(getString(R.string.internet_available_message), MessageType.POSITIVE)
+    }
+
+    private fun showSnackbar(message: String, type: MessageType = MessageType.NEUTRAL) {
         Snackbar.make(
-            binding.root,
-            message,
-            Snackbar.LENGTH_LONG
+            binding.root, message, Snackbar.LENGTH_LONG
         ).apply {
             setBackgroundTint(
                 ResourcesCompat.getColor(
-                    resources,
-                    android.R.color.holo_red_dark,
-                    null
+                    resources, when (type) {
+                        MessageType.POSITIVE -> android.R.color.holo_green_dark
+                        MessageType.NEGATIVE -> android.R.color.holo_red_dark
+                        else -> android.R.color.white
+                    }, null
                 )
             )
         }.show()

@@ -2,18 +2,15 @@ package com.example.nasagalleryapp.domain
 
 import com.example.nasagalleryapp.data.ImageApiModel
 import com.example.nasagalleryapp.data.ImageRepository
-import com.example.nasagalleryapp.di.DefaultDispatcher
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.coroutineScope
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
 class GetSortedImagesWithDateUseCase @Inject constructor(
-    private val imageRepository: ImageRepository,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
+    private val imageRepository: ImageRepository
 ) {
-    suspend operator fun invoke(): List<ImageApiModel> = withContext(defaultDispatcher) {
+    suspend operator fun invoke(): List<ImageApiModel> = coroutineScope {
         imageRepository.getImages().sortedByDescending {
             it.date?.let { date ->
                 SimpleDateFormat(

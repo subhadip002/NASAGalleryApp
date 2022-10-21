@@ -1,7 +1,5 @@
-package com.example.nasagalleryapp.ui
+package com.example.nasagalleryapp.ui.image_grid
 
-import android.annotation.SuppressLint
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +12,7 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.example.nasagalleryapp.R
 import com.example.nasagalleryapp.databinding.FragmentImagesGridBinding
+import com.example.nasagalleryapp.ui.ImageViewModel
 import com.google.android.material.transition.MaterialElevationScale
 
 class ImagesGridFragment : Fragment(), ImageGridAdapter.ImageGridAdapterListener {
@@ -33,16 +32,10 @@ class ImagesGridFragment : Fragment(), ImageGridAdapter.ImageGridAdapterListener
         return binding.root
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
-        viewModel.isNetworkAvailable.observe(viewLifecycleOwner) {
-            if (it == true) {
-                binding.imageGrid.adapter?.notifyDataSetChanged()
-            }
-        }
     }
 
     override fun onItemClicked(cardView: CardView, position: Int) {
@@ -57,9 +50,5 @@ class ImagesGridFragment : Fragment(), ImageGridAdapter.ImageGridAdapterListener
         val action =
             ImagesGridFragmentDirections.actionImagesGridFragmentToImageDetailFragment(position)
         findNavController().navigate(action, extras)
-    }
-
-    override fun saveImageDrawable(drawable: Drawable, position: Int) {
-        viewModel.saveImageDrawable(drawable, position)
     }
 }

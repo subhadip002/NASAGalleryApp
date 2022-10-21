@@ -1,6 +1,5 @@
 package com.example.nasagalleryapp.ui
 
-import android.graphics.drawable.Drawable
 import androidx.recyclerview.widget.DiffUtil
 
 data class ImageItemUiState(
@@ -8,7 +7,7 @@ data class ImageItemUiState(
     val hdurl: String = "",
     val title: String = "",
     val url: String = "",
-    var thumbnail: Drawable? = null
+    val isOffline: Boolean = false
 )
 
 object ImageDiffCallback : DiffUtil.ItemCallback<ImageItemUiState>() {

@@ -6,4 +6,5 @@
     <string name="loading_image_content_desc">Image Loading</string>
     <string name="image_date_format">yyyy-MM-dd</string>
     <string name="internet_unavailable_message">Please check your internet connection</string>
+    <string name="internet_available_message">Internet connection available</string>
 </resources>
