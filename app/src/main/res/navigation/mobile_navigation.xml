@@ -10,10 +10,10 @@
         tools:layout="@layout/fragment_images_grid">
         <action
             android:id="@+id/action_imagesGridFragment_to_imageDetailFragment"
-            app:destination="@id/imageDetailFragment" />
+            app:destination="@id/imageCollectionFragment" />
     </fragment>
     <fragment
-        android:id="@+id/imageDetailFragment"
+        android:id="@+id/imageCollectionFragment"
         android:name="com.example.nasagalleryapp.ui.image_detail.ImageCollectionFragment"
         tools:layout="@layout/fragment_image_collection">
         <argument
