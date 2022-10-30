@@ -1,4 +1,4 @@
-package com.example.nasagalleryapp.ui.image_grid
+package com.example.nasagalleryapp.ui
 
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
@@ -11,6 +11,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.example.nasagalleryapp.MainActivity
 import com.example.nasagalleryapp.R
+import com.example.nasagalleryapp.ui.image_grid.ImageGridAdapter
 import com.example.nasagalleryapp.util.DataSource
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -27,7 +28,7 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
-class ImagesGridFragmentTest {
+class AppUITest {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
