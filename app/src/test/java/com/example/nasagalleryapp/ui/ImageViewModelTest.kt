@@ -44,7 +44,7 @@ class ImageViewModelTest {
         val imagesUiState = viewModel.imagesUiState.value
         assertThat(imagesUiState.imageItems, `is`(emptyList()))
         assertThat(imagesUiState.loading, `is`(true))
-        assertThat(imagesUiState.errorMessage, `is`(nullValue()))
+        assertThat(imagesUiState.userMessage, `is`(nullValue()))
     }
 
     @Test
@@ -71,7 +71,7 @@ class ImageViewModelTest {
         val imagesUiState = viewModel.imagesUiState.value
         assertThat(imagesUiState.imageItems, `is`(getImageItemUiStateList()))
         assertThat(imagesUiState.loading, `is`(false))
-        assertThat(imagesUiState.errorMessage, `is`(nullValue()))
+        assertThat(imagesUiState.userMessage, `is`(nullValue()))
         for (i in 0 until getImageItemUiStateList().size) {
             assertThat(imagesUiState.getImageByIndex(i), `is`(getImageItemUiStateByIndex(i)))
         }
@@ -90,9 +90,9 @@ class ImageViewModelTest {
         val imagesUiState = viewModel.imagesUiState.value
         assertThat(imagesUiState.imageItems, `is`(emptyList()))
         assertThat(imagesUiState.loading, `is`(false))
-        assertThat(imagesUiState.errorMessage, `is`(notNullValue()))
+        assertThat(imagesUiState.userMessage, `is`(notNullValue()))
         viewModel.userMessageShown()
         advanceUntilIdle()
-        assertThat(viewModel.imagesUiState.value.errorMessage, `is`(nullValue()))
+        assertThat(viewModel.imagesUiState.value.userMessage, `is`(nullValue()))
     }
 }

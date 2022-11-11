@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeUserMessage() {
         lifecycleScope.launch {
-            viewModel.imagesUiState.map { it.errorMessage }.filterNotNull().collect {
+            viewModel.imagesUiState.map { it.userMessage }.filterNotNull().collect {
                 showSnackbar(it, MessageType.NEGATIVE)
                 viewModel.userMessageShown()
             }

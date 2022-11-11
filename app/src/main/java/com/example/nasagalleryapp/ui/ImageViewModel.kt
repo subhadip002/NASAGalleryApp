@@ -44,7 +44,7 @@ class ImageViewModel @Inject constructor(
             } catch (ioe: Exception) {
                 _imagesUiState.update {
                     val messages = ioe.message
-                    it.copy(errorMessage = messages)
+                    it.copy(userMessage = messages)
                 }
             } finally {
                 _imagesUiState.update {
@@ -56,7 +56,7 @@ class ImageViewModel @Inject constructor(
 
     fun userMessageShown() {
         _imagesUiState.update {
-            it.copy(errorMessage = null)
+            it.copy(userMessage = null)
         }
     }
 

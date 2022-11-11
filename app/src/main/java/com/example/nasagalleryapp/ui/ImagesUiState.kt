@@ -2,7 +2,7 @@ package com.example.nasagalleryapp.ui
 
 data class ImagesUiState(
     val loading: Boolean = true,
-    val errorMessage: String? = null,
+    val userMessage: String? = null,
     val imageItems: List<ImageItemUiState> = emptyList()
 )
 
