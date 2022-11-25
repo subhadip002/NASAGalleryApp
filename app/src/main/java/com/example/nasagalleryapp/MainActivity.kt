@@ -13,30 +13,38 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.nasagalleryapp.databinding.ActivityMainBinding
+import com.example.nasagalleryapp.di.AppComponent
+import com.example.nasagalleryapp.di.DaggerAppComponent
 import com.example.nasagalleryapp.ui.ImageViewModel
 import com.example.nasagalleryapp.util.MessageType
+import com.example.nasagalleryapp.util.ViewModelFactory
 import com.google.android.material.snackbar.Snackbar
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: ImageViewModel by viewModels { viewModelFactory }
     private val navController: NavController by lazy {
         (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
     }
     private val appBarConfiguration: AppBarConfiguration by lazy {
         AppBarConfiguration(navController.graph)
     }
-    private val viewModel: ImageViewModel by viewModels()
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
+    }
+    val appComponent: AppComponent by lazy {
+        DaggerAppComponent.factory().create(applicationContext)
     }
     private var isOffline = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setSupportActionBar(binding.topAppBar)

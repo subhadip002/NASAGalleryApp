@@ -1,5 +1,6 @@
 package com.example.nasagalleryapp.ui.image_grid
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,15 +11,25 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import com.example.nasagalleryapp.MainActivity
 import com.example.nasagalleryapp.R
 import com.example.nasagalleryapp.databinding.FragmentImagesGridBinding
 import com.example.nasagalleryapp.ui.ImageViewModel
+import com.example.nasagalleryapp.util.ViewModelFactory
 import com.google.android.material.transition.MaterialElevationScale
+import javax.inject.Inject
 
 class ImagesGridFragment : Fragment(), ImageGridAdapter.ImageGridAdapterListener {
 
-    private val viewModel: ImageViewModel by activityViewModels()
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: ImageViewModel by activityViewModels { viewModelFactory }
     lateinit var binding: FragmentImagesGridBinding
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as MainActivity).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

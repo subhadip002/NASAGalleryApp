@@ -1,5 +1,6 @@
 package com.example.nasagalleryapp.ui.image_detail
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,18 +13,28 @@ import androidx.lifecycle.lifecycleScope
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.ImageResult
+import com.example.nasagalleryapp.MainActivity
 import com.example.nasagalleryapp.R
 import com.example.nasagalleryapp.databinding.FragmentImageDetailBinding
 import com.example.nasagalleryapp.ui.ImageViewModel
 import com.example.nasagalleryapp.ui.getImageByIndex
+import com.example.nasagalleryapp.util.ViewModelFactory
 import com.example.nasagalleryapp.util.setImageUrl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 class ImageDetailFragment : Fragment() {
-    private val viewModel: ImageViewModel by activityViewModels()
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: ImageViewModel by activityViewModels { viewModelFactory }
     private lateinit var binding: FragmentImageDetailBinding
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as MainActivity).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

@@ -13,13 +13,9 @@ import com.example.nasagalleryapp.MainActivity
 import com.example.nasagalleryapp.R
 import com.example.nasagalleryapp.ui.image_grid.ImageGridAdapter
 import com.example.nasagalleryapp.util.DataSource
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
-import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import javax.inject.Inject
@@ -27,19 +23,10 @@ import javax.inject.Inject
 @LargeTest
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
-@HiltAndroidTest
 class AppUITest {
-
-    @get:Rule
-    var hiltRule = HiltAndroidRule(this)
 
     @Inject
     lateinit var dataSource: DataSource
-
-    @Before
-    fun init() {
-        hiltRule.inject()
-    }
 
     @Test
     fun shimmer_DisplayedInUi() = runTest {
